@@ -12,8 +12,6 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
-#include <tuple>
-#include <boost/coroutine/coroutine.hpp>
 #include "TokenizedString.h"
 
 class Smasher

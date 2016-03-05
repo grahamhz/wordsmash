@@ -67,10 +67,17 @@ std::string TokenizedString::get_syllable_string(char cDirection, long lPosition
             lPosition = m_asSylls.size() - 2;
         }
         
-        // lPosition is end position
-        for(long i = 0; i < lPosition; i++)
+        if(lPosition <= 0)
         {
-            stream << m_asSylls[i];
+            stream << m_asSylls.front();
+        }
+        else
+        {
+            // lPosition is end position
+            for(long i = 0; i < lPosition; i++)
+            {
+                stream << m_asSylls[i];
+            }
         }
     }
     else if(cDirection == 'r') // right tail
