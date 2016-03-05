@@ -32,6 +32,34 @@ long TokenizedString::get_syllable_count()
     return m_asSylls.size();
 }
 
+std::string TokenizedString::get_syllable_string()
+{
+    return m_sWord;
+}
+
+std::string TokenizedString::get_syllable_string(long start)
+{
+    std::stringstream stream;
+    for(long i = start; i < m_asSylls.size(); i++)
+    {
+        stream << m_asSylls[i];
+    }
+    return stream.str();
+}
+
+std::string TokenizedString::get_syllable_string(long start, long end)
+{
+    std::stringstream stream;
+    for(long i = start; i < m_asSylls.size(); i++)
+    {
+        stream << m_asSylls[i];
+        if(i == end)
+        {
+            break;
+        }
+    }
+    return stream.str();
+}
 
 /**
  * Private Methods
@@ -59,7 +87,7 @@ std::vector<std::string> TokenizedString::tokenize(std::string word)
         char letter = word.at(i);
         syll += letter;
         
-        if(is_vowel(letter) || i == count - 1)
+        if(is_vowel(letter) || i == word.length() - 1)
         {
             asTokens.push_back(syll);
             syll = "";

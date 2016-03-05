@@ -48,6 +48,3 @@ int main(int argc, const char * argv[])
     // exit
     return 0;
 }
-
-
-std::string 

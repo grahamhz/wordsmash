@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 class TokenizedString
 {
@@ -23,14 +24,17 @@ public:
     // public member functions
     std::vector<std::string> get_syllables();
     long get_syllable_count();
+    std::string get_syllable_string();
+    std::string get_syllable_string(long start);
+    std::string get_syllable_string(long start, long end);
     
 private:
-    // member variables
+    // private member variables
     const std::string m_sVowels = "aAeEiIoOuUyY";
     std::string m_sWord;
     std::vector<std::string> m_asSylls;
     
-    // member functions
+    // private member functions
     bool is_vowel(char letter);
     std::vector<std::string> tokenize(std::string word);
     
