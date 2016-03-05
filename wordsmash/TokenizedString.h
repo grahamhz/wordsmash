@@ -13,30 +13,36 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <utility>
+
+typedef std::vector<std::string> StringVector;
 
 class TokenizedString
 {
     
 public:
-    // constructor
+    // constructors
+    TokenizedString();
     TokenizedString(std::string word);
     
+    // copies
+    TokenizedString& operator=(TokenizedString toCopy);
+    
     // public member functions
-    std::vector<std::string> get_syllables();
+    StringVector get_syllables();
     long get_syllable_count();
     std::string get_syllable_string();
-    std::string get_syllable_string(long start);
-    std::string get_syllable_string(long start, long end);
+    std::string get_syllable_string(char cDirection, long llPosition);
     
 private:
     // private member variables
     const std::string m_sVowels = "aAeEiIoOuUyY";
     std::string m_sWord;
-    std::vector<std::string> m_asSylls;
+    StringVector m_asSylls;
     
     // private member functions
     bool is_vowel(char letter);
-    std::vector<std::string> tokenize(std::string word);
+    StringVector tokenize(std::string word);
     
 };
 

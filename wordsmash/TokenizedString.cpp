@@ -12,6 +12,12 @@
  * Constructors
  */
 
+TokenizedString::TokenizedString()
+{
+    m_sWord = "";
+    m_asSylls = StringVector();
+}
+
 TokenizedString::TokenizedString(std::string word)
 {
     m_sWord = word;
@@ -19,10 +25,21 @@ TokenizedString::TokenizedString(std::string word)
 }
 
 /**
+ * Copies
+ */
+
+TokenizedString& TokenizedString::operator=(TokenizedString toCopy)
+{
+    std::swap(m_sWord, toCopy.m_sWord);
+    std::swap(m_asSylls, toCopy.m_asSylls);
+    return *this;
+}
+
+/**
  * Public Methods
  */
 
-std::vector<std::string> TokenizedString::get_syllables()
+StringVector TokenizedString::get_syllables()
 {
     return m_asSylls;
 }
@@ -37,29 +54,45 @@ std::string TokenizedString::get_syllable_string()
     return m_sWord;
 }
 
-std::string TokenizedString::get_syllable_string(long start)
+std::string TokenizedString::get_syllable_string(char cDirection, long lPosition)
 {
     std::stringstream stream;
-    for(long i = start; i < m_asSylls.size(); i++)
+    
+    // left tail
+    if(cDirection == 'l')
     {
-        stream << m_asSylls[i];
+        // don't return the last element of a left tail
+        if(lPosition >= m_asSylls.size() - 1)
+        {
+            lPosition = m_asSylls.size() - 2;
+        }
+        
+        // lPosition is end position
+        for(long i = 0; i < lPosition; i++)
+        {
+            stream << m_asSylls[i];
+        }
     }
+    else if(cDirection == 'r') // right tail
+    {
+        // return last element if I wouldn't return anything
+        if(lPosition >= m_asSylls.size() - 1)
+        {
+            stream << m_asSylls.back();
+        }
+        else
+        {
+            // lPosition is start position
+            for(long i = lPosition; i < m_asSylls.size(); i++)
+            {
+                stream << m_asSylls[i];
+            }
+        }
+    }
+    
     return stream.str();
 }
 
-std::string TokenizedString::get_syllable_string(long start, long end)
-{
-    std::stringstream stream;
-    for(long i = start; i < m_asSylls.size(); i++)
-    {
-        stream << m_asSylls[i];
-        if(i == end)
-        {
-            break;
-        }
-    }
-    return stream.str();
-}
 
 /**
  * Private Methods
@@ -75,7 +108,7 @@ bool TokenizedString::is_vowel(char letter)
     return true;
 }
 
-std::vector<std::string> TokenizedString::tokenize(std::string word)
+StringVector TokenizedString::tokenize(std::string word)
 {
     // init vars
     std::vector<std::string> asTokens;

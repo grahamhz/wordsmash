@@ -9,11 +9,12 @@
 #include <iostream>
 #include <vector>
 #include "TokenizedString.h"
+#include "Smasher.h"
 
 int main(int argc, const char * argv[])
 {
     // compile list of words
-    std::vector<std::string> asWords;
+    StringVector asWords;
     for(int i = 1; i < argc; i++)
     {
         asWords.push_back(argv[i]);
@@ -32,18 +33,27 @@ int main(int argc, const char * argv[])
     TokenizedString left(asWords[0]);
     TokenizedString right(asWords[1]);
     
-    std::vector<std::string> leftSylls = left.get_syllables();
-    std::vector<std::string> rightSylls = right.get_syllables();
+    // smash it
+    Smasher smash(left, right);
+    StringVector smashed = smash.smash_it();
     
-    for(int i = 0; i < leftSylls.size(); i++)
+    // print it
+    for(long i = 0; i < smashed.size(); i++)
     {
-        std::cout << leftSylls[i] << std::endl;
+        std::cout << std::endl << smashed[i];
     }
     
-    for(int i = 0; i < rightSylls.size(); i++)
+    smash.set_strings(right, left);
+    smashed = smash.smash_it();
+    
+    // print it
+    for(long i = 0; i < smashed.size(); i++)
     {
-        std::cout << rightSylls[i] << std::endl;
+        std::cout << std::endl << smashed[i];
     }
+    
+    // for sanity
+    std::cout << std::endl;
 
     // exit
     return 0;
